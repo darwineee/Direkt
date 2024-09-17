@@ -1,0 +1,11 @@
+spring:
+  docker:
+    compose:
+      enabled: true
+      file: docker/dev/docker-compose.yaml
+      lifecycle-management: start_only
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/crm
+    username: dev
+    password: 1234

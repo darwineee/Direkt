@@ -1,0 +1,40 @@
+[versions]
+springBoot = "3.3.3"
+dependencyManagement = "1.1.6"
+lombok = "1.18.34"
+mapstruct = "1.6.0"
+lombokMapstructBinding = "0.2.0"
+openApi = "2.6.0"
+springModulithBom = "1.2.3"
+
+[libraries]
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+lombokMapstructBinding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombokMapstructBinding" }
+postgreSql = { module = "org.postgresql:postgresql" }
+
+spring-modulith-bom = { module = "org.springframework.modulith:spring-modulith-bom", version.ref = "springModulithBom" }
+spring-starter-modulith-core = { module = "org.springframework.modulith:spring-modulith-starter-core" }
+spring-starter-modulith-jdbc = { module = "org.springframework.modulith:spring-modulith-starter-jdbc" }
+spring-starter-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
+
+spring-starter-jetty = { module = "org.springframework.boot:spring-boot-starter-jetty" }
+spring-starter-tomcat = { module = "org.springframework.boot:spring-boot-starter-tomcat" }
+spring-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-data-jdbc" }
+spring-starter-data-cassandra = { module = "org.springframework.boot:spring-boot-starter-data-cassandra" }
+spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
+spring-starter-data-elasticsearch = { module = "org.springframework.boot:spring-boot-starter-data-elasticsearch" }
+spring-configProcessor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
+spring-devTools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-docker = { module = "org.springframework.boot:spring-boot-docker-compose" }
+
+spring-doc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "openApi" }
+
+
+[plugins]
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
+dependencyManagement = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
+
