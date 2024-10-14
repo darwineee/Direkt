@@ -3,7 +3,7 @@ package com.dd.direkt.customer.webapi.v1;
 import com.dd.direkt.customer.app.dto.RequestCreateClient;
 import com.dd.direkt.customer.app.dto.RequestUpdateClient;
 import com.dd.direkt.customer.app.dto.ResponseGetClient;
-import com.dd.direkt.customer.app.service.IClientService;
+import com.dd.direkt.customer.app.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/clients")
 @RequiredArgsConstructor
 public class ClientController {
-    private final IClientService clientService;
+    private final ClientService clientService;
 
     @GetMapping("/{id}")
     ResponseEntity<ResponseGetClient> getClient(

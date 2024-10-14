@@ -32,7 +32,7 @@ dependencies {
     implementation(libs.spring.starter.jetty)
     implementation(libs.spring.starter.validation)
     implementation(libs.spring.starter.data.jdbc)
-    implementation(libs.spring.starter.data.cassandra)
+//    implementation(libs.spring.starter.data.cassandra)
     implementation(libs.spring.starter.data.redis)
     implementation(libs.spring.starter.modulith.core)
     implementation(libs.spring.starter.modulith.jdbc)

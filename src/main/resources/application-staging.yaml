@@ -1,11 +1,13 @@
 spring:
+  config:
+    import: classpath:secret.properties
   docker:
     compose:
-      enabled: true
+      enabled: false
       file: docker/dev/docker-compose.yaml
       lifecycle-management: start_only
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/crm
-    username: dev
-    password: 1234
+    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+    username: ${supabase.stg.user}
+    password: ${supabase.stg.pw}

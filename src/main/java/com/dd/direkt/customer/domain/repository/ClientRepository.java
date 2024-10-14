@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface IClientRepository extends
+public interface ClientRepository extends
         ListCrudRepository<Client, Long>,
         PagingAndSortingRepository<Client, Long>
 {

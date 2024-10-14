@@ -13,7 +13,7 @@ import org.mapstruct.ReportingPolicy;
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface IUserMapper {
+public interface UserMapper {
     ResponseGetUser toResponse(User user);
 
     User toEntity(RequestCreateUser request);

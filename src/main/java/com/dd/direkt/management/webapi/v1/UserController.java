@@ -3,7 +3,7 @@ package com.dd.direkt.management.webapi.v1;
 import com.dd.direkt.management.app.dto.RequestCreateUser;
 import com.dd.direkt.management.app.dto.RequestUpdateUser;
 import com.dd.direkt.management.app.dto.ResponseGetUser;
-import com.dd.direkt.management.app.service.IUserService;
+import com.dd.direkt.management.app.service.UserService;
 import com.dd.direkt.shared_kernel.util.constant.RequestCst;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final IUserService userService;
+    private final UserService userService;
 
     @GetMapping("/{id}")
     ResponseEntity<ResponseGetUser> getUser(
