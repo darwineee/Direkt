@@ -9,5 +9,9 @@ spring:
 
   datasource:
     url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
-    username: ${supabase.stg.user}
-    password: ${supabase.stg.pw}
+    username: ${sb.stg.user}
+    password: ${sb.stg.pw}
+
+app:
+  url:
+    confirm: http://localhost:8081/api/v1/account/confirm

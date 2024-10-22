@@ -6,6 +6,7 @@ mapstruct = "1.6.0"
 lombokMapstructBinding = "0.2.0"
 openApi = "2.6.0"
 springModulithBom = "1.2.3"
+jwt = "0.12.6"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
@@ -14,7 +15,13 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 lombokMapstructBinding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombokMapstructBinding" }
 postgreSql = { module = "org.postgresql:postgresql" }
 
+io-jwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jwt" }
+io-jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
+io-jwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jwt" }
+
 spring-modulith-bom = { module = "org.springframework.modulith:spring-modulith-bom", version.ref = "springModulithBom" }
+spring-modulith-event-api = { module = "org.springframework.modulith:spring-modulith-events-api" }
+spring-modulith-event-jackson = { module = "org.springframework.modulith:spring-modulith-events-jackson" }
 spring-starter-modulith-core = { module = "org.springframework.modulith:spring-modulith-starter-core" }
 spring-starter-modulith-jdbc = { module = "org.springframework.modulith:spring-modulith-starter-jdbc" }
 spring-starter-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
@@ -26,6 +33,7 @@ spring-starter-web = { module = "org.springframework.boot:spring-boot-starter-we
 spring-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-data-jdbc" }
 spring-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 
 spring-starter-data-cassandra = { module = "org.springframework.boot:spring-boot-starter-data-cassandra" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }

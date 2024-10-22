@@ -1,12 +1,14 @@
 package com.dd.direkt.shared_kernel.infra.handler;
 
-import com.dd.direkt.shared_kernel.domain.exception.ApiException;
-import com.dd.direkt.shared_kernel.util.constant.ErrCode;
-import com.dd.direkt.shared_kernel.domain.wrapper.Error;
+import com.dd.direkt.shared_kernel.domain.exception.base.ApiException;
+import com.dd.direkt.shared_kernel.util.ErrCode;
+import com.dd.direkt.shared_kernel.domain.type.Error;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +43,13 @@ public class WebApiExceptionHandler {
                         ex.getErrCode(),
                         msgSource.getMessage(ex.getMsgKey(), ex.getMsgParams(), LocaleContextHolder.getLocale())
                 ));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Error<String>> handle(AuthenticationException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new Error<>(ErrCode.AUTHENTICATION, ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
