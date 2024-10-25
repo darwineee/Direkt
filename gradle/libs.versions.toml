@@ -14,6 +14,7 @@ mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 lombokMapstructBinding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombokMapstructBinding" }
 postgreSql = { module = "org.postgresql:postgresql" }
+projectreactor-test = { module = "io.projectreactor:reactor-test" }
 
 io-jwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jwt" }
 io-jwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jwt" }
@@ -34,10 +35,15 @@ spring-starter-validation = { module = "org.springframework.boot:spring-boot-sta
 spring-starter-data-jdbc = { module = "org.springframework.boot:spring-boot-starter-data-jdbc" }
 spring-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-starter-rsocket = { module = "org.springframework.boot:spring-boot-starter-rsocket" }
+spring-starter-websocket = { module = "org.springframework.boot:spring-boot-starter-websocket" }
 
 spring-starter-data-cassandra = { module = "org.springframework.boot:spring-boot-starter-data-cassandra" }
 spring-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
 spring-starter-data-elasticsearch = { module = "org.springframework.boot:spring-boot-starter-data-elasticsearch" }
+
+spring-security-rsocket = { module = "org.springframework.security:spring-security-rsocket" }
+spring-security-messaging = { module = "org.springframework.security:spring-security-messaging" }
 spring-configProcessor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
 spring-devTools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-docker = { module = "org.springframework.boot:spring-boot-docker-compose" }

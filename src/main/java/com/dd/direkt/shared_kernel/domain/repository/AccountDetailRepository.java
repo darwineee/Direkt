@@ -1,7 +1,7 @@
 package com.dd.direkt.shared_kernel.domain.repository;
 
 import com.dd.direkt.shared_kernel.domain.entity.Account;
-import com.dd.direkt.shared_kernel.domain.entity.view.AccountDetail;
+import com.dd.direkt.shared_kernel.domain.model.AccountDetail;
 
 import java.util.Optional;
 

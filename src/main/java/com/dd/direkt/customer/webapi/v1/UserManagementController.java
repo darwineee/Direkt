@@ -3,6 +3,7 @@ package com.dd.direkt.customer.webapi.v1;
 import com.dd.direkt.customer.app.dto.CreateUserRequest;
 import com.dd.direkt.customer.app.dto.UserInfoResponse;
 import com.dd.direkt.customer.app.service.UserManagementService;
+import com.dd.direkt.shared_kernel.domain.model.CustomUserDetails;
 import com.dd.direkt.shared_kernel.domain.type.AccountPagingFilter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +26,7 @@ public class UserManagementController {
     @GetMapping("/users")
     ResponseEntity<Page<UserInfoResponse>> getUsers(
             @AuthenticationPrincipal
-            UserDetails userDetails,
+            CustomUserDetails userDetails,
 
             @ParameterObject
             @PageableDefault(size = 20)
@@ -35,8 +35,8 @@ public class UserManagementController {
             @ParameterObject
             AccountPagingFilter filter
     ) {
+        filter.setCustomerId(userDetails.getId());
         var data = userManagementService.findAllUsers(
-                userDetails.getUsername(),
                 pageable,
                 filter
         );
@@ -49,11 +49,11 @@ public class UserManagementController {
             CreateUserRequest request,
 
             @AuthenticationPrincipal
-            UserDetails userDetails
+            CustomUserDetails userDetails
     ) {
         userManagementService.createUser(
                 request,
-                userDetails.getUsername()
+                userDetails.getId()
         );
         return ResponseEntity.ok().build();
     }

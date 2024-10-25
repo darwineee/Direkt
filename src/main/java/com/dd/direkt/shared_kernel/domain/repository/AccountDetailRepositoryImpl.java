@@ -4,7 +4,7 @@ import com.dd.direkt.shared_kernel.app.mapper.AuthMapper;
 import com.dd.direkt.shared_kernel.domain.entity.Account;
 import com.dd.direkt.shared_kernel.domain.entity.AccountRole;
 import com.dd.direkt.shared_kernel.domain.entity.Role;
-import com.dd.direkt.shared_kernel.domain.entity.view.AccountDetail;
+import com.dd.direkt.shared_kernel.domain.model.AccountDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
 import org.springframework.data.relational.core.query.Criteria;

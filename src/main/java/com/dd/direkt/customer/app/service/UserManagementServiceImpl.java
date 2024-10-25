@@ -3,7 +3,6 @@ package com.dd.direkt.customer.app.service;
 import com.dd.direkt.customer.app.dto.CreateUserRequest;
 import com.dd.direkt.customer.app.dto.UserInfoResponse;
 import com.dd.direkt.customer.app.mapper.CustomerMapper;
-import com.dd.direkt.customer.domain.exception.CustomerNotFound;
 import com.dd.direkt.customer.domain.repository.UserManagementRepository;
 import com.dd.direkt.shared_kernel.app.service.BasicAuthService;
 import com.dd.direkt.shared_kernel.domain.type.AccountPagingFilter;
@@ -27,12 +26,8 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Transactional
     @Override
-    public void createUser(CreateUserRequest request, String customerEmail) {
+    public void createUser(CreateUserRequest request, long customerId) {
         var signUpRequest = mapper.toSignUpRequest(request);
-        var customerId = userRepository
-                .findByEmail(customerEmail)
-                .orElseThrow(CustomerNotFound::new)
-                .getId();
         signUpRequest.setCustomerId(customerId);
         basicAuthService.signUp(signUpRequest, List.of(UserRole.EndUser));
     }
@@ -50,12 +45,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    public Page<UserInfoResponse> findAllUsers(String customerEmail, Pageable pageable, AccountPagingFilter filter) {
-        var customerId = userRepository
-                .findByEmail(customerEmail)
-                .orElseThrow(CustomerNotFound::new)
-                .getId();
-        filter.setCustomerId(customerId);
+    public Page<UserInfoResponse> findAllUsers(Pageable pageable, AccountPagingFilter filter) {
         var data = userRepository.findAllPaging(pageable, filter);
         return new PageImpl<>(
                 data.map(mapper::toUserInfoRsp).toList(),

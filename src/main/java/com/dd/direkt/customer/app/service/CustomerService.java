@@ -4,7 +4,7 @@ import com.dd.direkt.customer.app.dto.CustomerInfoResponse;
 import com.dd.direkt.customer.app.dto.UpdateCustomerRequest;
 
 public interface CustomerService {
-    CustomerInfoResponse getInfo(String email);
-    CustomerInfoResponse updateInfo(UpdateCustomerRequest request, String email);
-    void suspendAccount(String email);
+    CustomerInfoResponse getInfo(long id);
+    CustomerInfoResponse updateInfo(UpdateCustomerRequest request, long id);
+    void suspendAccount(long id);
 }

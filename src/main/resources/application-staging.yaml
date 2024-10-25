@@ -15,3 +15,7 @@ spring:
 app:
   url:
     confirm: http://localhost:8081/api/v1/account/confirm
+
+logging:
+  level:
+    org.springframework.security: TRACE

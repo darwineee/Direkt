@@ -3,12 +3,12 @@ package com.dd.direkt.customer.webapi.v1;
 import com.dd.direkt.customer.app.dto.CustomerInfoResponse;
 import com.dd.direkt.customer.app.dto.UpdateCustomerRequest;
 import com.dd.direkt.customer.app.service.CustomerService;
+import com.dd.direkt.shared_kernel.domain.model.CustomUserDetails;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,10 +21,9 @@ public class CustomerController {
     @GetMapping("/info")
     ResponseEntity<CustomerInfoResponse> getSelfInfo(
             @AuthenticationPrincipal
-            UserDetails userDetails
+            CustomUserDetails userDetails
     ) {
-        var customerEmail = userDetails.getUsername();
-        CustomerInfoResponse response = customerService.getInfo(customerEmail);
+        CustomerInfoResponse response = customerService.getInfo(userDetails.getId());
         return ResponseEntity.ok(response);
     }
 
@@ -34,20 +33,18 @@ public class CustomerController {
             @Valid
             UpdateCustomerRequest request,
             @AuthenticationPrincipal
-            UserDetails userDetails
+            CustomUserDetails userDetails
     ) {
-        var customerEmail = userDetails.getUsername();
-        CustomerInfoResponse response = customerService.updateInfo(request, customerEmail);
+        CustomerInfoResponse response = customerService.updateInfo(request, userDetails.getId());
         return ResponseEntity.accepted().body(response);
     }
 
     @PutMapping("/suspend")
     ResponseEntity<Void> requestSuspendAccount(
             @AuthenticationPrincipal
-            UserDetails userDetails
+            CustomUserDetails userDetails
     ) {
-        var customerEmail = userDetails.getUsername();
-        customerService.suspendAccount(customerEmail);
+        customerService.suspendAccount(userDetails.getId());
         return ResponseEntity.accepted().build();
     }
 }

@@ -15,6 +15,13 @@ public class HardcodedUrlWhitelistService implements UrlWhitelistService {
                 "/api/*/*/login",
                 "/api/*/*/signup",
                 "/api/*/*/confirm",
+                //for ws handshake
+                "/ws/*/message",
+                //for resources
+                "/*.ico",
+                "/*.html",
+                "/*.js",
+                "/*.css",
         };
     }
 }

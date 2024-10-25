@@ -6,9 +6,9 @@ import com.dd.direkt.user.app.dto.UserInfoResponse;
 import com.dd.direkt.user.app.mapper.UserMapper;
 import com.dd.direkt.user.domain.exception.UserNotFound;
 import com.dd.direkt.user.domain.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

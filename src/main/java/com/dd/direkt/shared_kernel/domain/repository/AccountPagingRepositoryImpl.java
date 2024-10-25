@@ -46,16 +46,16 @@ public class AccountPagingRepositoryImpl implements AccountPagingRepository {
         var condition = Criteria.empty();
         if (Objects.isNull(filter)) return condition;
         if (filter.getCustomerId() != null) {
-            condition.and("customer_id").is(filter.getCustomerId());
+            condition = condition.and("customer_id").is(filter.getCustomerId());
         }
         if (Stringx.isValuable(filter.getEmail())) {
-            condition.and("upper(email)").like("upper(%" + filter.getEmail() + "%)");
+            condition = condition.and("upper(email)").like("upper(%" + filter.getEmail() + "%)");
         }
         if (Stringx.isValuable(filter.getName())) {
-            condition.and("upper(name)").like("upper(%" + filter.getName() + "%)");
+            condition = condition.and("upper(name)").like("upper(%" + filter.getName() + "%)");
         }
         if (filter.getEnabled() != null) {
-            condition.and("enabled").is(filter.getEnabled());
+            condition = condition.and("enabled").is(filter.getEnabled());
         }
         return condition;
     }

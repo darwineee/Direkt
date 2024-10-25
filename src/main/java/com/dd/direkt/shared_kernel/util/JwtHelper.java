@@ -44,11 +44,8 @@ public class JwtHelper {
     }
 
     public boolean validateToken(
-            String token,
-            String email,
-            UserDetails user
+            String token
     ) {
-        if (!user.getUsername().equals(email)) return false;
         return extractClaims(token, Claims::getExpiration).after(new Date());
     }
 

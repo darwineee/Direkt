@@ -3,7 +3,7 @@ package com.dd.direkt.shared_kernel.app.mapper;
 import com.dd.direkt.shared_kernel.app.dto.LoginResponse;
 import com.dd.direkt.shared_kernel.app.dto.SignUpRequest;
 import com.dd.direkt.shared_kernel.domain.entity.Account;
-import com.dd.direkt.shared_kernel.domain.entity.view.AccountDetail;
+import com.dd.direkt.shared_kernel.domain.model.AccountDetail;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 

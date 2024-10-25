@@ -9,5 +9,6 @@ public class ErrCode {
     public static final int AUTHENTICATION = 3;
 
     //specific
-    public static final int  ACCOUNT_CONFIRMED = 30;
+    public static final int ACCOUNT_CONFIRMED = 30;
+    public static final int WS_SUB_ERR = 31;
 }

@@ -17,24 +17,24 @@ class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper mapper;
 
     @Override
-    public CustomerInfoResponse getInfo(String email) {
+    public CustomerInfoResponse getInfo(long id) {
        var account = repository
-               .findByEmail(email)
+               .findById(id)
                .orElseThrow(CustomerNotFound::new);
        return mapper.toGetCustomerRsp(account);
     }
 
     @Transactional
     @Override
-    public CustomerInfoResponse updateInfo(UpdateCustomerRequest request, String email) {
-        var account = repository.findByEmail(email).orElseThrow(CustomerNotFound::new);
+    public CustomerInfoResponse updateInfo(UpdateCustomerRequest request, long id) {
+        var account = repository.findById(id).orElseThrow(CustomerNotFound::new);
         mapper.updateAccountEntity(account, request);
         return mapper.toGetCustomerRsp(repository.save(account));
     }
 
     @Transactional
     @Override
-    public void suspendAccount(String email) {
-        repository.updateEnabledByEmail(email, false);
+    public void suspendAccount(long id) {
+        repository.updateEnabledById(id, false);
     }
 }

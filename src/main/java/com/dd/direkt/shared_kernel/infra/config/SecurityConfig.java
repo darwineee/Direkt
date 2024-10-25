@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +24,7 @@ import static com.dd.direkt.shared_kernel.domain.type.UserRole.Admin;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class HttpSecurityConfig {
+public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final UrlWhitelistService whitelistService;
@@ -55,6 +56,7 @@ public class HttpSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(it -> it
                         .requestMatchers(whitelistService.getList()).permitAll()
+                        .requestMatchers("/ws/*/message/**").permitAll()
                         .requestMatchers("/api/*/admin/**").hasAuthority(Admin.name())
                         .requestMatchers("/api/*/customer/**").hasAnyAuthority(Admin.name(), Customer.name())
                         .requestMatchers(
@@ -67,7 +69,7 @@ public class HttpSecurityConfig {
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationManager(authManager)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .formLogin(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
                 .build();
     }
 }

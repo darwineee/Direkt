@@ -1,4 +1,4 @@
-package com.dd.direkt.shared_kernel.domain.entity.view;
+package com.dd.direkt.shared_kernel.domain.model;
 
 import com.dd.direkt.shared_kernel.domain.entity.Role;
 import lombok.Builder;

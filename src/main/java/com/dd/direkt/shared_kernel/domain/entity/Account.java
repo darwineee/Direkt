@@ -15,6 +15,9 @@ public class Account {
     private String password;
     private boolean enabled;
 
+    @Column("customer_id")
+    private Long customerId;
+
     @Column("verify_token")
     private String verifyToken;
 }

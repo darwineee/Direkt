@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- SockJS -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>-->
+    <!-- STOMP -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <!-- Application JS -->
+    <script src="/app.js"></script>
+</head>
+<body>
+<noscript>
+    <h2 style="color: #ff0000">Seems your browser doesn't support Javascript! WebSocket relies on Javascript being
+        enabled. Please enable Javascript and reload this page!</h2>
+</noscript>
+
+<div id="main-content">
+    <h2 class="text-center">Direkt Messaging client demo</h2>
+
+    <div class="row">
+        <!-- Left Column: Logs -->
+        <div class="col-md-3">
+            <div class="log-panel">
+                <div class="panel-heading section-header">System Logs</div>
+                <div class="panel-body">
+                    <div class="scroll-container">
+                        <ul id="message-log" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Column: Controls -->
+        <div class="col-md-5">
+            <!-- Connection Control -->
+            <div class="control-panel">
+                <div class="section-header">WebSocket Connection</div>
+                <div class="form-group">
+                    <label for="ws-url">WebSocket URL:</label>
+                    <input type="text" id="ws-url" class="form-control"
+                           value="ws://localhost:8081/ws/v1/message">
+                </div>
+                <div class="form-group">
+                    <label for="jwt-token">JWT Token:</label>
+                    <input type="text" id="jwt-token" class="form-control"
+                           placeholder="Your JWT token here">
+                </div>
+                <div class="text-right">
+                    <button id="connect" class="btn btn-success">Connect</button>
+                    <button id="disconnect" class="btn btn-danger" disabled="disabled">Disconnect</button>
+                </div>
+            </div>
+
+            <!-- Room Subscription -->
+            <div class="control-panel">
+                <div class="section-header">Room Management</div>
+                <div class="form-group">
+                    <label for="room-id">Room ID:</label>
+                    <input type="text" id="room-id" class="form-control"
+                           placeholder="Enter room ID" disabled>
+                </div>
+                <div class="text-right">
+                    <button id="subscribe-room" class="btn btn-primary" disabled>Subscribe</button>
+                    <button id="unsubscribe-room" class="btn btn-warning" disabled>Unsubscribe</button>
+                </div>
+            </div>
+
+            <!-- Message Sending -->
+            <div class="control-panel">
+                <div class="section-header">Send Message</div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <input type="text" id="message" class="form-control"
+                           placeholder="Enter your message" disabled>
+                </div>
+                <div class="text-right">
+                    <button id="send-message" class="btn btn-primary" disabled>Send Message</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Messages -->
+        <div class="col-md-4">
+            <div class="log-panel">
+                <div class="panel-heading section-header">Room Messages</div>
+                <div class="panel-body">
+                    <div class="scroll-container">
+                        <div id="received-messages"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface UserManagementService {
-    void createUser(CreateUserRequest request, String customerEmail);
+    void createUser(CreateUserRequest request, long customerId);
     void changeUserEnabledStatus(long id, boolean enabled);
     void deleteUser(long id);
 
-    Page<UserInfoResponse> findAllUsers(String customerEmail, Pageable pageable, AccountPagingFilter filter);
+    Page<UserInfoResponse> findAllUsers(Pageable pageable, AccountPagingFilter filter);
 }

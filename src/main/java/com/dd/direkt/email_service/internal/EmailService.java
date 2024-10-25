@@ -1,4 +1,4 @@
-package com.dd.direkt.email.service;
+package com.dd.direkt.email_service.internal;
 
 import com.dd.direkt.shared_kernel.app.event.AccountSignedUp;
 import lombok.RequiredArgsConstructor;

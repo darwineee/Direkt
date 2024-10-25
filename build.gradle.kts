@@ -29,13 +29,15 @@ dependencies {
     implementation(libs.spring.configProcessor)
     implementation(libs.postgreSql)
     implementation(libs.spring.starter.web)
-    implementation(libs.spring.starter.jetty)
+    implementation(libs.spring.starter.tomcat)
     implementation(libs.spring.starter.validation)
     implementation(libs.spring.starter.data.jdbc)
     implementation(libs.spring.starter.security)
+    implementation(libs.spring.starter.websocket)
     implementation(libs.io.jwt.api)
     runtimeOnly(libs.io.jwt.impl)
     runtimeOnly(libs.io.jwt.jackson)
+    implementation(libs.spring.security.messaging)
     implementation(libs.spring.starter.modulith.core)
     implementation(libs.spring.modulith.event.api)
     implementation(libs.spring.modulith.event.jackson)
@@ -44,11 +46,11 @@ dependencies {
     developmentOnly(libs.spring.devTools)
     runtimeOnly(libs.spring.docker)
     testImplementation(libs.spring.starter.modulith.test)
-    modules {
-        module(libs.spring.starter.tomcat.get().module) {
-            replacedBy(libs.spring.starter.jetty.get().module)
-        }
-    }
+//    modules {
+//        module(libs.spring.starter.tomcat.get().module) {
+//            replacedBy(libs.spring.starter.jetty.get().module)
+//        }
+//    }
 }
 
 group = "com.dd"
