@@ -2,7 +2,6 @@ package com.dd.direkt.user.app.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +22,9 @@ public class SendTextMsgRequest {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private long to;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String senderEmail;
 
 //    @NotNull
     private LocalDateTime createdAt;

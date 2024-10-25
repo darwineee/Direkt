@@ -1,8 +1,8 @@
 package com.dd.direkt.user.infra;
 
 import com.dd.direkt.shared_kernel.domain.model.CustomUserDetails;
+import com.dd.direkt.shared_kernel.util.Stringx;
 import com.dd.direkt.user.app.service.RoomService;
-import com.dd.direkt.user.domain.exception.WsSubRoomChangeFailed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,41 +21,56 @@ public class MessagingSocketEventListener {
     @EventListener
     public void on(SessionSubscribeEvent event) {
         var accessor = StompHeaderAccessor.wrap(event.getMessage());
-        var dest = accessor.getDestination();
-        if (dest == null) {
-            sendErrMsg(accessor.getSessionId(), "Null destination");
-            throw new WsSubRoomChangeFailed();
+        var user = requirePrincipal(accessor);
+        if (user == null) return;
+        var dest = requireDest(accessor, user);
+        if (dest == null) return;
+        if (dest.startsWith(WebSocketConfig.DEST_ROOM_EVENT)) {
+            handleRoomSubscription(accessor, dest, user);
         }
-        var roomId = extractRoomId(dest);
-        if (roomId == null) {
-            return;
-        }
+    }
+
+    private CustomUserDetails requirePrincipal(StompHeaderAccessor accessor) {
         var principal = (UsernamePasswordAuthenticationToken) accessor.getUser();
         if (principal == null) {
-            sendErrMsg(accessor.getSessionId(), "User is not authenticated");
-            throw new WsSubRoomChangeFailed();
-        }
-        var user = (CustomUserDetails) principal.getPrincipal();
-        if (!roomService.isRoomMember(roomId, user.getId())) {
-            sendErrMsg(accessor.getSessionId(), "Not a room member");
-            throw new WsSubRoomChangeFailed();
-        }
-    }
-
-    private Long extractRoomId(String destination) {
-        var segments = destination.split("/");
-        try {
-            return Long.parseLong(segments[segments.length - 1]);
-        } catch (NumberFormatException e) {
+            denySubscription(accessor);
             return null;
         }
+        return (CustomUserDetails) principal.getPrincipal();
     }
 
-    private void sendErrMsg(String sessionId, String msg) {
+    private String requireDest(StompHeaderAccessor accessor, CustomUserDetails user) {
+        var dest = accessor.getDestination();
+        if (Stringx.isNullOrBlank(dest) || !dest.contains(WebSocketConfig.SUB_PREFIX)) {
+            sendErrMsgAndTerminate(accessor, user.getUsername(), "Wrong destination");
+            return null;
+        }
+        return dest;
+    }
+
+    private void handleRoomSubscription(StompHeaderAccessor accessor, String dest, CustomUserDetails user) {
+        long roomId;
+        try {
+            roomId = Long.parseLong(dest.replaceFirst(WebSocketConfig.DEST_ROOM_EVENT, ""));
+        } catch (NumberFormatException e) {
+            sendErrMsgAndTerminate(accessor, user.getUsername(), "Invalid room");
+            return;
+        }
+        if (!roomService.isRoomMember(roomId, user.getId())) {
+            sendErrMsgAndTerminate(accessor, user.getUsername(), "Not a room member");
+        }
+    }
+
+    private void sendErrMsgAndTerminate(StompHeaderAccessor accessor, String user, String msg) {
         template.convertAndSendToUser(
-                sessionId,
+                user,
                 WebSocketConfig.DEST_ERR,
                 msg
         );
+        denySubscription(accessor);
+    }
+
+    private void denySubscription(StompHeaderAccessor accessor) {
+        accessor.setHeader("subscription-denied", true);
     }
 }

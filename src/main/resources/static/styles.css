@@ -1,9 +1,129 @@
+/*#received-messages {*/
+/*    padding: 10px;*/
+/*}*/
+
+/*.message {*/
+/*    margin-bottom: 12px;*/
+/*    border-radius: 4px;*/
+/*    background-color: #f9f9f9;*/
+/*    box-shadow: 0 1px 3px rgba(0,0,0,0.1);*/
+/*    transition: all 0.2s ease;*/
+/*}*/
+
+/*.message:hover {*/
+/*    background-color: #fff;*/
+/*    box-shadow: 0 2px 5px rgba(0,0,0,0.15);*/
+/*}*/
+
+/*.message-header {*/
+/*    padding: 8px 12px;*/
+/*    border-bottom: 1px solid #eee;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    background-color: rgba(0,0,0,0.02);*/
+/*    border-radius: 4px 4px 0 0;*/
+/*}*/
+
+/*.message-content {*/
+/*    padding: 10px 12px;*/
+/*}*/
+
+/*.message-icon {*/
+/*    margin-right: 8px;*/
+/*}*/
+
+/*.message-time {*/
+/*    font-size: 12px;*/
+/*    color: #888;*/
+/*}*/
+
+/*.sender-info {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.sender-email {*/
+/*    font-weight: 600;*/
+/*    color: #337ab7;*/
+/*}*/
+
+/*.message-text {*/
+/*    white-space: pre-wrap;*/
+/*    word-break: break-word;*/
+/*}*/
+
+/*!* System message styling *!*/
+/*.system-message {*/
+/*    border-left: 4px solid #5bc0de;*/
+/*}*/
+
+/*.system-message .message-icon {*/
+/*    color: #5bc0de;*/
+/*}*/
+
+/*.system-text {*/
+/*    color: #31708f;*/
+/*}*/
+
+/*!* Error message styling *!*/
+/*.error-message {*/
+/*    border-left: 4px solid #d9534f;*/
+/*}*/
+
+/*.error-message .message-icon {*/
+/*    color: #d9534f;*/
+/*}*/
+
+/*.error-text {*/
+/*    color: #d9534f;*/
+/*}*/
+
+/*!* User message styling *!*/
+/*.user-message {*/
+/*    border-left: 4px solid #337ab7;*/
+/*}*/
+
+/*!* Animation for new messages *!*/
+/*.message {*/
+/*    animation: slideIn 0.3s ease-out;*/
+/*}*/
+
+/*@keyframes slideIn {*/
+/*    from {*/
+/*        opacity: 0;*/
+/*        transform: translateY(10px);*/
+/*    }*/
+/*    to {*/
+/*        opacity: 1;*/
+/*        transform: translateY(0);*/
+/*    }*/
+/*}*/
+
+/*!* Improve scrollbar appearance *!*/
+/*#received-messages::-webkit-scrollbar {*/
+/*    width: 6px;*/
+/*}*/
+
+/*#received-messages::-webkit-scrollbar-track {*/
+/*    background: #f1f1f1;*/
+/*}*/
+
+/*#received-messages::-webkit-scrollbar-thumb {*/
+/*    background: #ccc;*/
+/*    border-radius: 3px;*/
+/*}*/
+
+/*#received-messages::-webkit-scrollbar-thumb:hover {*/
+/*    background: #999;*/
+/*}*/
+
+/* Original layout CSS */
 body {
     background-color: #f5f5f5;
 }
-
 #main-content {
-    max-width: 1200px; /* Increased from 940px to accommodate 3 columns */
+    max-width: 1200px;
     padding: 2em 3em;
     margin: 0 auto 20px;
     background-color: #fff;
@@ -12,7 +132,6 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-
 .log-panel {
     height: calc(100vh - 200px);
     display: flex;
@@ -21,37 +140,25 @@ body {
     border-radius: 5px;
     background-color: #fff;
 }
-
 .panel-body {
     flex: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
-
 .scroll-container {
     flex: 1;
     overflow-y: auto;
-    padding: 10px;
+    padding: 5px;
 }
-
 #message-log, #received-messages {
     margin: 0;
     padding: 0;
 }
-
 #message-log li {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     word-wrap: break-word;
 }
-
-#received-messages p {
-    margin-bottom: 5px;
-    word-wrap: break-word;
-    padding: 5px;
-    border-bottom: 1px solid #eee;
-}
-
 .control-panel {
     margin-bottom: 20px;
     border: 1px solid #e5e5e5;
@@ -59,7 +166,6 @@ body {
     padding: 15px;
     background-color: #fff;
 }
-
 .section-header {
     margin-bottom: 15px;
     padding-bottom: 10px;
@@ -67,11 +173,130 @@ body {
     font-weight: bold;
     color: #333;
 }
-
 .form-group {
     margin-bottom: 15px;
 }
-
 .btn {
     margin-left: 5px;
+}
+
+/* Fancy message styling */
+#received-messages {
+    padding: 5px;
+}
+
+.message {
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.message:hover {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.message-header {
+    padding: 5px 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 4px 4px 0 0;
+}
+
+.message-content {
+    padding: 7px 12px;
+}
+
+.message-icon {
+    margin-right: 8px;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #888;
+}
+
+.sender-info {
+    display: flex;
+    align-items: center;
+}
+
+.sender-email {
+    font-weight: 600;
+    color: #337ab7;
+}
+
+.message-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* System message styling */
+.system-message {
+    border-left: 4px solid #5bc0de;
+}
+
+.system-message .message-icon {
+    color: #5bc0de;
+}
+
+.system-text {
+    color: #31708f;
+}
+
+/* Error message styling */
+.error-message {
+    border-left: 4px solid #d9534f;
+}
+
+.error-message .message-icon {
+    color: #d9534f;
+}
+
+.error-text {
+    color: #d9534f;
+}
+
+/* User message styling */
+.user-message {
+    border-left: 4px solid #337ab7;
+}
+
+/* Animation for new messages */
+.message {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improve scrollbar appearance */
+.scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }

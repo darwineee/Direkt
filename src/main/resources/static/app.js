@@ -61,21 +61,60 @@ $(function() {
             const messageData = JSON.parse(message);
             switch(type) {
                 case 'system':
-                    messageHtml = `<p class="text-muted">[${timestamp}] System: ${messageData.data}</p>`;
+                    messageHtml = `
+                    <div class="message system-message">
+                        <div class="message-header">
+                            <span class="message-icon glyphicon glyphicon-info-sign"></span>
+                            <span class="message-time">${timestamp}</span>
+                        </div>
+                        <div class="message-content">
+                            <span class="system-text">System: ${messageData.data}</span>
+                        </div>
+                    </div>`;
                     break;
                 case 'error':
-                    messageHtml = `<p class="text-danger">[${timestamp}] Error: ${messageData.data}</p>`;
+                    messageHtml = `
+                    <div class="message error-message">
+                        <div class="message-header">
+                            <span class="message-icon glyphicon glyphicon-exclamation-sign"></span>
+                            <span class="message-time">${timestamp}</span>
+                        </div>
+                        <div class="message-content">
+                            <span class="error-text">Error: ${messageData.data}</span>
+                        </div>
+                    </div>`;
                     break;
                 default:
-                    messageHtml = `<p>[User ${messageData.from}] [${timestamp}]<br/>${messageData.msg.text}</p>`;
+                    messageHtml = `
+                    <div class="message user-message">
+                        <div class="message-header">
+                            <div class="sender-info">
+                                <span class="message-icon glyphicon glyphicon-user"></span>
+                                <span class="sender-email">${messageData.senderEmail}</span>
+                            </div>
+                            <span class="message-time">${timestamp}</span>
+                        </div>
+                        <div class="message-content">
+                            <span class="message-text">${messageData.msg.text}</span>
+                        </div>
+                    </div>`;
             }
         } catch (e) {
-            messageHtml = `<p>[${timestamp}] ${message}</p>`;
+            messageHtml = `
+            <div class="message">
+                <div class="message-header">
+                    <span class="message-time">${timestamp}</span>
+                </div>
+                <div class="message-content">
+                    <span>${message}</span>
+                </div>
+            </div>`;
         }
 
         $receivedMessages.append(messageHtml);
         $receivedMessages.scrollTop($receivedMessages[0].scrollHeight);
     }
+
 
     function connect() {
         const wsUrl = $wsUrl.val();
@@ -100,10 +139,9 @@ $(function() {
             setConnected(true);
             console.log(frame.headers);
             const email = frame.headers['user-name'];
-            const sessionId = frame.headers['session'];
-            logMessage('Connected to WebSocket: ' + email + ", sessionId: " + sessionId, 'success');
+            logMessage('Connected to WebSocket: ' + email, 'success');
             updateSubscriptionUI(false);
-            subscribeToPersonalErrors(frame.headers['session']);
+            subscribeToPersonalErrors();
         };
 
         stompClient.onWebSocketError = (error) => {
@@ -125,11 +163,11 @@ $(function() {
         stompClient.activate();
     }
 
-    function subscribeToPersonalErrors(sessionId) {
+    function subscribeToPersonalErrors() {
         if (personalErrorSubscription) {
             personalErrorSubscription.unsubscribe();
         }
-        const dest = `/user/${sessionId}/sub/err.queue`;
+        const dest = '/sub/err.queue';
         personalErrorSubscription = stompClient.subscribe(dest, (message) => {
             logReceivedMessage(message.body, 'error');
             logMessage('Received error: ' + message.body, 'error');

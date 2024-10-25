@@ -33,6 +33,7 @@ public class MessagingController {
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         request.setFrom(userDetails.getId());
+        request.setSenderEmail(userDetails.getUsername());
         request.setTo(roomId);
         request.setCreatedAt(LocalDateTime.now());
         return messageService.processTextMsg(request);

@@ -30,9 +30,11 @@ import java.util.List;
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-
-    public static final String DEST_ROOM_EVENT = "/sub/room.change";
-    public static final String DEST_ERR = "/sub/err.queue";
+    public static final String SUB_PREFIX = "/sub";
+    public static final String DEST_ROOM_EVENT = SUB_PREFIX + "/room.change";
+    public static final String DEST_ERR = SUB_PREFIX + "/err.queue";
+    public static final String SEND_PREFIX = "/send";
+    public static final String WS_ENDPOINT = "/ws/v1/message";
 
     private final JwtHelper jwtHelper;
     private final UserDetailsService userDetailsService;
@@ -41,12 +43,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry registry) {
         registry.enableSimpleBroker(DEST_ROOM_EVENT, DEST_ERR);
-        registry.setApplicationDestinationPrefixes("/send");
+        registry.setApplicationDestinationPrefixes(SEND_PREFIX);
     }
 
     @Override
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/v1/message");
+        registry.addEndpoint(WS_ENDPOINT);
     }
 
     @Override
@@ -56,33 +58,54 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        AuthorizationManager<Message<?>> msgAuthManager = (authentication, message) -> {
-            var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-            if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
-                List<String> headers = accessor.getNativeHeader("Authorization");
-                if (headers != null && !headers.isEmpty()) {
-                    String bearer = headers.getFirst();
-                    var credentials = jwtHelper.extractCredentials(bearer);
-                    if (credentials != null && jwtHelper.validateToken(credentials.token())) {
-                        var user = userDetailsService.loadUserByUsername(credentials.email());
-                        var principal = new UsernamePasswordAuthenticationToken(
-                                user,
-                                null,
-                                user.getAuthorities()
-                        );
-                        accessor.setUser(principal);
-                        return new AuthorizationDecision(true);
-                    }
-                }
-            }
-            return new AuthorizationDecision(authentication.get() != null);
-        };
-        var authChannelInterceptor = new AuthorizationChannelInterceptor(msgAuthManager);
+        var authChannelInterceptor = createAuthChannelInterceptor();
         var publisher = new SpringAuthorizationEventPublisher(context);
         authChannelInterceptor.setAuthorizationEventPublisher(publisher);
+
         registration.interceptors(
                 new SecurityContextChannelInterceptor(),
                 authChannelInterceptor
         );
     }
+
+    private AuthorizationChannelInterceptor createAuthChannelInterceptor() {
+        return new AuthorizationChannelInterceptor(createAuthManager());
+    }
+
+    private AuthorizationManager<Message<?>> createAuthManager() {
+        return (authentication, message) -> {
+            var accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+            if (isConnectCommand(accessor)) {
+                return validateJwtAndCreatePrincipal(accessor);
+            }
+            return new AuthorizationDecision(authentication.get() != null);
+        };
+    }
+
+    private boolean isConnectCommand(StompHeaderAccessor accessor) {
+        return accessor != null && StompCommand.CONNECT.equals(accessor.getCommand());
+    }
+
+    private AuthorizationDecision validateJwtAndCreatePrincipal(StompHeaderAccessor accessor) {
+        List<String> headers = accessor.getNativeHeader("Authorization");
+        if (headers == null || headers.isEmpty()) {
+            return new AuthorizationDecision(false);
+        }
+
+        String bearer = headers.getFirst();
+        var credentials = jwtHelper.extractCredentials(bearer);
+        if (credentials == null || !jwtHelper.validateToken(credentials.token())) {
+            return new AuthorizationDecision(false);
+        }
+
+        var user = userDetailsService.loadUserByUsername(credentials.email());
+        var principal = new UsernamePasswordAuthenticationToken(
+                user,
+                null,
+                user.getAuthorities()
+        );
+        accessor.setUser(principal);
+        return new AuthorizationDecision(true);
+    }
 }
+

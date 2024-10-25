@@ -16,6 +16,7 @@ public sealed interface RoomEvent permits
     record IncomingMessage(
             String id,
             long from,
+            String senderEmail,
             LocalDateTime createdAt,
             Msg msg
     ) implements RoomEvent {

@@ -30,6 +30,7 @@ public class MessageServiceImpl implements MessageService {
         return new RoomEvent.IncomingMessage(
                 savedMsg.getId().toString(),
                 savedMsg.getFrom(),
+                request.getSenderEmail(),
                 savedMsg.getCreatedAt(),
                 new Msg.Text(savedMsg.getData())
         );
