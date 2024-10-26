@@ -1,0 +1,16 @@
+logging:
+  file:
+    name: logs/app.log
+
+spring:
+  config:
+    import: classpath:secret.properties
+
+  datasource:
+    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+    username: ${sb.pd.user}
+    password: ${sb.pd.pw}
+
+app:
+  url:
+    confirm: http://vps-8d230a13.vps.ovh.ca/api/v1/account/confirm

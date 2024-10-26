@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+
 plugins {
     java
     alias(libs.plugins.springBoot)
@@ -17,6 +19,20 @@ java {
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
+val dockerUsername = project.findProperty("dockerUsername") as String?
+val dockerToken = project.findProperty("dockerToken") as String?
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+    imageName = "${dockerUsername}/direkt-messaging:${version}"
+    publish = true
+    docker {
+        publishRegistry {
+            username = dockerUsername
+            password = dockerToken
+        }
     }
 }
 
@@ -46,11 +62,6 @@ dependencies {
     developmentOnly(libs.spring.devTools)
     runtimeOnly(libs.spring.docker)
     testImplementation(libs.spring.starter.modulith.test)
-//    modules {
-//        module(libs.spring.starter.tomcat.get().module) {
-//            replacedBy(libs.spring.starter.jetty.get().module)
-//        }
-//    }
 }
 
 group = "com.dd"
