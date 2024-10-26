@@ -60,12 +60,11 @@ dependencies {
     implementation(libs.spring.starter.modulith.jdbc)
     implementation(libs.spring.doc.openapi)
     developmentOnly(libs.spring.devTools)
-    runtimeOnly(libs.spring.docker)
     testImplementation(libs.spring.starter.modulith.test)
 }
 
 group = "com.dd"
-version = "0.0.1"
+version = "0.0.2-ALPHA"
 
 dependencyManagement {
     imports {

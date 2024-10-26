@@ -1,13 +1,9 @@
-logging:
-  file:
-    name: logs/app.log
-
 spring:
   config:
     import: classpath:secret.properties
 
   datasource:
-    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
     username: ${sb.pd.user}
     password: ${sb.pd.pw}
 

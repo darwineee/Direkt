@@ -1,11 +1,11 @@
 spring:
   config:
     import: classpath:secret.properties
-  docker:
-    compose:
-      enabled: false
-      file: docker/dev/docker-compose.yaml
-      lifecycle-management: start_only
+#  docker:
+#    compose:
+#      enabled: false
+#      file: docker/dev/docker-compose.yaml
+#      lifecycle-management: start_only
 
   datasource:
     url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
