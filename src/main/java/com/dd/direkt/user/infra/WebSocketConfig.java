@@ -39,6 +39,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final JwtHelper jwtHelper;
     private final UserDetailsService userDetailsService;
     private final ApplicationContext context;
+    private final MessagingSocketErrorHandler messagingSocketErrorHandler;
 
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry registry) {
@@ -49,6 +50,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         registry.addEndpoint(WS_ENDPOINT);
+        registry.setErrorHandler(messagingSocketErrorHandler);
     }
 
     @Override

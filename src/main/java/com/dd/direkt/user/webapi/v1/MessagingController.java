@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 
@@ -40,6 +41,7 @@ public class MessagingController {
     }
 
     @PostMapping("/api/v1/message/sendText/{roomId}")
+    @ResponseBody
     ResponseEntity<Void> sendTextMsg(
             @PathVariable long roomId,
             @AuthenticationPrincipal CustomUserDetails userDetails,

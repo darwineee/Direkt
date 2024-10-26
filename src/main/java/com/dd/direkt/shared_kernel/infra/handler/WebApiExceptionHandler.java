@@ -1,6 +1,6 @@
 package com.dd.direkt.shared_kernel.infra.handler;
 
-import com.dd.direkt.shared_kernel.domain.exception.base.ApiException;
+import com.dd.direkt.shared_kernel.domain.exception.base.RootException;
 import com.dd.direkt.shared_kernel.util.ErrCode;
 import com.dd.direkt.shared_kernel.domain.type.Error;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +35,8 @@ public class WebApiExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<Error<String>> handle(ApiException ex) {
+    @ExceptionHandler(RootException.class)
+    public ResponseEntity<Error<String>> handle(RootException ex) {
         return ResponseEntity
                 .badRequest()
                 .body(new Error<>(
