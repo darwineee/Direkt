@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     // jQuery element references
     const $connect = $("#connect");
     const $disconnect = $("#disconnect");
@@ -50,7 +50,8 @@ $(function() {
             type === 'success' ? 'list-group-item-success' :
                 'list-group-item-info';
         $messageLog.append(`<li class="list-group-item ${messageClass}">[${timestamp}] ${message}</li>`);
-        $messageLog.scrollTop($messageLog[0].scrollHeight);
+        const $scrollContainer = $messageLog.closest('.scroll-container');
+        $scrollContainer.scrollTop($scrollContainer[0].scrollHeight);
     }
 
     function logReceivedMessage(message, type = 'message') {
@@ -59,7 +60,7 @@ $(function() {
 
         try {
             const messageData = JSON.parse(message);
-            switch(type) {
+            switch (type) {
                 case 'system':
                     messageHtml = `
                     <div class="message system-message">
@@ -112,7 +113,8 @@ $(function() {
         }
 
         $receivedMessages.append(messageHtml);
-        $receivedMessages.scrollTop($receivedMessages[0].scrollHeight);
+        const $scrollContainer = $receivedMessages.closest('.scroll-container');
+        $scrollContainer.scrollTop($scrollContainer[0].scrollHeight);
     }
 
 
@@ -130,7 +132,7 @@ $(function() {
             connectHeaders: {
                 Authorization: `Bearer ${jwtToken}`
             },
-            debug: function(str) {
+            debug: function (str) {
                 console.debug(str);
             }
         });
@@ -201,7 +203,7 @@ $(function() {
         }
         setConnected(false);
         updateSubscriptionUI(false);
-        logMessage("Disconnected from WebSocket");
+        // logMessage("Disconnected from WebSocket");
     }
 
     function subscribeRoom() {
@@ -264,7 +266,7 @@ $(function() {
         try {
             stompClient.publish({
                 destination: `/send/room/${roomId}`,
-                body: JSON.stringify({ data: message })
+                body: JSON.stringify({data: message})
             });
             $messageInput.val(''); // Clear message input
             logMessage("Sent message: " + message, 'success');
