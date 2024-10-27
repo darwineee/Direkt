@@ -1,8 +1,8 @@
 package com.dd.direkt.user.app.service;
 
 import com.dd.direkt.user.app.dto.CreateRoomRequest;
+import com.dd.direkt.user.app.dto.CreateRoomResponse;
 import com.dd.direkt.user.app.mapper.RoomMapper;
-import com.dd.direkt.user.domain.entity.Room;
 import com.dd.direkt.user.domain.entity.RoomMember;
 import com.dd.direkt.user.domain.repository.RoomMemberRepository;
 import com.dd.direkt.user.domain.repository.RoomRepository;
@@ -43,11 +43,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Transactional
     @Override
-    public Room createRoom(CreateRoomRequest request, long userId) {
+    public CreateRoomResponse createRoom(CreateRoomRequest request, long userId) {
         var room = roomMapper.toRoomEntity(request);
         room.setOwnerId(userId);
         var savedRoom = roomRepository.save(room);
         request.getMembers().forEach(member -> joinRoom(savedRoom.getId(), member));
-        return savedRoom;
+        var response = roomMapper.toCreateRoomResponse(savedRoom);
+        response.setMembers(request.getMembers());
+        return response;
     }
 }

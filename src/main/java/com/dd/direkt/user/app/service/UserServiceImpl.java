@@ -1,12 +1,15 @@
 package com.dd.direkt.user.app.service;
 
 import com.dd.direkt.shared_kernel.domain.entity.Account;
+import com.dd.direkt.shared_kernel.domain.type.AccountPagingFilter;
 import com.dd.direkt.user.app.dto.UpdateUserRequest;
 import com.dd.direkt.user.app.dto.UserInfoResponse;
 import com.dd.direkt.user.app.mapper.UserMapper;
 import com.dd.direkt.user.domain.exception.UserNotFound;
 import com.dd.direkt.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .map(mapper::toResponse)
                 .orElseThrow(UserNotFound::new);
+    }
+
+    @Override
+    public Page<UserInfoResponse> findColleagues(Pageable pageable, AccountPagingFilter filter) {
+        return userRepository
+                .findAllPaging(pageable, filter)
+                .map(mapper::toResponse);
     }
 
     @Transactional

@@ -203,7 +203,6 @@ $(function () {
         }
         setConnected(false);
         updateSubscriptionUI(false);
-        // logMessage("Disconnected from WebSocket");
     }
 
     function subscribeRoom() {
@@ -266,7 +265,12 @@ $(function () {
         try {
             stompClient.publish({
                 destination: `/send/room/${roomId}`,
-                body: JSON.stringify({data: message})
+                body: JSON.stringify(
+                    {
+                        createdAt: new Date().toISOString(),
+                        data: message
+                    }
+                )
             });
             $messageInput.val(''); // Clear message input
             logMessage("Sent message: " + message, 'success');

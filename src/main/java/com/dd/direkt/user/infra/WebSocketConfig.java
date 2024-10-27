@@ -31,10 +31,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public static final String SUB_PREFIX = "/sub";
-    public static final String DEST_ROOM_EVENT = SUB_PREFIX + "/room.change";
+    public static final String DEST_ROOM_EVENT = SUB_PREFIX + "/room.change/";
     public static final String DEST_ERR = SUB_PREFIX + "/err.queue";
     public static final String SEND_PREFIX = "/send";
-    public static final String WS_ENDPOINT = "/ws/v1/message";
+    public static final String WS_ENDPOINT = "/ws/v1/messages";
 
     private final JwtHelper jwtHelper;
     private final UserDetailsService userDetailsService;

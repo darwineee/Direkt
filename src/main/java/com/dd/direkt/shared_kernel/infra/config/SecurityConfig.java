@@ -18,8 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.dd.direkt.shared_kernel.domain.type.UserRole.Customer;
-import static com.dd.direkt.shared_kernel.domain.type.UserRole.Admin;
+import static com.dd.direkt.shared_kernel.domain.type.UserRole.*;
 
 @Configuration
 @EnableWebSecurity
@@ -56,14 +55,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(it -> it
                         .requestMatchers(whitelistService.getList()).permitAll()
-                        .requestMatchers("/ws/*/message/**").permitAll()
                         .requestMatchers("/api/*/admin/**").hasAuthority(Admin.name())
                         .requestMatchers("/api/*/customer/**").hasAnyAuthority(Admin.name(), Customer.name())
                         .requestMatchers(
                                 "/api/*/user/**",
-                                "/api/*/room/**",
-                                "/api/*/message/**"
-                        ).authenticated()
+                                "/api/*/rooms/**",
+                                "/api/*/messages/**"
+                        ).hasAnyAuthority(Admin.name(), EndUser.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

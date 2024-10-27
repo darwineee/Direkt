@@ -27,6 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .toList();
         return new CustomUserDetails(
                 accountDetail.getId(),
+                accountDetail.getCustomerId(),
                 accountDetail.getEmail(),
                 accountDetail.getPassword(),
                 accountDetail.isEnabled(),

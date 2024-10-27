@@ -1,8 +1,10 @@
 package com.dd.direkt.admin.app.mapper;
 
 import com.dd.direkt.admin.app.dto.AdminLoginResponse;
+import com.dd.direkt.admin.app.dto.CreateCustomerRequest;
 import com.dd.direkt.admin.app.dto.CustomerInfoResponse;
 import com.dd.direkt.shared_kernel.app.dto.LoginResponse;
+import com.dd.direkt.shared_kernel.app.dto.SignUpRequest;
 import com.dd.direkt.shared_kernel.domain.entity.Account;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -13,6 +15,8 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface AdminMapper {
     CustomerInfoResponse toCustomerInfoRsp(Account account);
+
+    SignUpRequest toSignUpRequest(CreateCustomerRequest createCustomerRequest);
 
     AdminLoginResponse toAdminLoginRsp(LoginResponse loginResponse);
 }

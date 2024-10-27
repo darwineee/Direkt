@@ -1,11 +1,10 @@
 package com.dd.direkt.admin.webapi.v1;
 
+import com.dd.direkt.admin.app.dto.CreateCustomerRequest;
 import com.dd.direkt.admin.app.dto.CustomerInfoResponse;
 import com.dd.direkt.admin.app.service.CustomerManagementService;
-import com.dd.direkt.shared_kernel.app.dto.SignUpRequest;
-import com.dd.direkt.shared_kernel.app.service.BasicAuthService;
+import com.dd.direkt.shared_kernel.domain.model.CustomUserDetails;
 import com.dd.direkt.shared_kernel.domain.type.AccountPagingFilter;
-import com.dd.direkt.shared_kernel.domain.type.UserRole;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/admin/customer-management")
@@ -25,10 +23,12 @@ import java.util.List;
 public class CustomerManagementController {
 
     private final CustomerManagementService customerManagementService;
-    private final BasicAuthService basicAuthService;
 
     @GetMapping("/customers")
     ResponseEntity<Page<CustomerInfoResponse>> getCustomers(
+            @AuthenticationPrincipal
+            CustomUserDetails userDetails,
+
             @ParameterObject
             @PageableDefault(size = 20)
             Pageable pageable,
@@ -36,6 +36,7 @@ public class CustomerManagementController {
             @ParameterObject
             AccountPagingFilter filter
     ) {
+        filter.setCustomerId(userDetails.getId());
         var data = customerManagementService.getCustomers(pageable, filter);
         return ResponseEntity.ok(data);
     }
@@ -50,14 +51,14 @@ public class CustomerManagementController {
 
     @PostMapping("/customers")
     ResponseEntity<Void> createCustomer(
+            @AuthenticationPrincipal
+            CustomUserDetails userDetails,
+
             @RequestBody
             @Valid
-            SignUpRequest request
+            CreateCustomerRequest request
     ) {
-        basicAuthService.signUp(
-                request,
-                List.of(UserRole.Customer)
-        );
+        customerManagementService.createCustomer(request, userDetails.getId());
         return ResponseEntity.accepted().build();
     }
 

@@ -7,6 +7,7 @@ import com.dd.direkt.user.domain.model.Msg;
 import com.dd.direkt.user.domain.model.RoomEvent;
 import com.dd.direkt.user.domain.repository.MessageRepository;
 import com.dd.direkt.user.domain.repository.RoomMemberRepository;
+import com.dd.direkt.user.infra.WebSocketConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class MessageServiceImpl implements MessageService {
     public void sendTextMessage(SendTextMsgRequest request) {
         verifyRoomMember(request.getTo(), request.getFrom(), request.getSenderEmail());
         var event = processTextMsg(request);
-        template.convertAndSend("/room/" + request.getTo(), event);
+        template.convertAndSend(WebSocketConfig.DEST_ROOM_EVENT + request.getTo(), event);
     }
 
     @Override

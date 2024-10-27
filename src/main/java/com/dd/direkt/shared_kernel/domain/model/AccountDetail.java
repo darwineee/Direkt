@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 public class AccountDetail {
     private long id;
+    private long customerId;
     private String name;
     private String email;
     private String password;
