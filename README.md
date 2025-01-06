@@ -279,4 +279,4 @@ This project is designed to showcase several modern backend development approach
 
 ## License
 
-MIT License
+GPL-3.0 License
